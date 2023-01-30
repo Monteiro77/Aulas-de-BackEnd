@@ -31,7 +31,7 @@
     let nomeAluno = nome;
     
     //Função de CallBack para entrar a primeira nota do aluno
-    entradaDados.question('Digite a nota do primeiro bimestre: \n', function(nota1){
+    entradaDados.question(  'Digite a nota do primeiro bimestre: \n', function(nota1){
         let valor1 = nota1;
    
         entradaDados.question('Digite a nota do segundo bimestre: \n', function(nota2){
@@ -86,12 +86,17 @@
                      }else if(isNaN(valor1) || isNaN(valor2) || isNaN(valor3) || isNaN(valor4)){
                         console.log('ERROR: você digitou alguma letra!');
                         //validação para numeros maior que 10   
-                     }else if(valor1 >= 10 || valor2 >= 10 || valor3 >= 10 || valor4 >= 10){
-                         console.log('ERROR:você colocou uma nota maior que 10 em algumas das notas');
+                     }else if(valor1 < 0  || valor1 > 10 || valor2 < 0 || valor2 > 10 || valor3 < 0 || valor3 > 10 || valor4 < 0 || valor4 > 10){
+                         console.log('ERROR:Você colocou uma nota menor que 0 ou uma nota maior que 10');
                         
                      }else{
                         media = (Number(valor1) + Number(valor2) + Number(valor3) + Number(valor4))/4;
-                        console.log('A media do aluno ' + nomeAluno + ' é ' + media);
+                        if(media < 7){      
+                            console.log('A média do aluno ' + nomeAluno + ' é ' + media.toFixed(1) + '.  STATUS: REPROVADO')
+                        }else{
+                            console.log('A media do aluno ' + nomeAluno + ' é ' + media.toFixed(1) + '. STATUS: APROVADO');
+                        }
+                        
                      }
 
 
