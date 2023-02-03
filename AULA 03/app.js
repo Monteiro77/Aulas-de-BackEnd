@@ -41,9 +41,11 @@ console.log('\n')
 
                  adicao = Number(numero1) + Number(numero2);
                  if(numero1 == '' || numero2 == ''){
-                    console.log('ERROR: Você deixou algum numero em branco')   
+                    console.log('ERROR: Você deixou algum numero em branco') 
+                    entradaDados.close();  
                  }else if(isNaN(numero1) || isNaN(numero2)){
                     console.log('ERROR: não é possivel somar com letras')
+                    entradaDados.close();
                  }else{
                     console.log(adicao); 
                  }
@@ -62,8 +64,10 @@ console.log('\n')
                     subtracao = Number(numero1) - Number(numero2);
                  if(numero1 == '' || numero2 == ''){
                     console.log('ERROR: Você deixou algum numero em branco')
+                    entradaDados.close();
                  }else if(isNaN(numero1) || isNaN(numero2)){
                     console.log('ERROR : Não é possivel subtrair com letras!')
+                    entradaDados.close();
                  }else{
                     console.log(subtracao); 
                  }
@@ -81,8 +85,10 @@ console.log('\n')
                 multiplicacao = Number(numero1) * Number(numero2);
                  if(numero1 == '' || numero2 == ''){
                     console.log('ERROR: Você deixou algum numero em branco')
+                    entradaDados.close();
                  }else if(isNaN(numero1) || isNaN(numero2)){
                     console.log('ERROR : Não é possivel multiplicar com letras!')
+                    entradaDados.close();
                  }else{
                     console.log(multiplicacao);
                  }
@@ -101,10 +107,13 @@ console.log('\n')
 
                 if(numero1 == '' || numero2 == ''){
                     console.log('ERROR: Você deixou algum numero em branco')
+                    entradaDados.close();
                  }else if(numero1 == 0 || numero2 == 0){
                     console.log('ERROR: Não é possivel dividir 0')
+                    entradaDados.close();
                  }else if(isNaN(numero1) || isNaN(numero2)){
                     console.log('ERROR : Não é possivel dividir com letras!')
+                    entradaDados.close();
                  }else{
                     console.log(divisao);
                  }
