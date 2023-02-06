@@ -20,7 +20,7 @@
 
 
  //valor 1
- entradaDados.question('valor: \n', function(numero1){
+ entradaDados.question('valor : \n', function(numero1){
 
     let valor1 = numero1.replace(',','.')
     let resultado
@@ -44,12 +44,15 @@
                 console.log('ERROR: Não é possivel calcular se os dados digitados não forem numeros, tente novamente.')
                 entradaDados.close();
             }else{
+
+                //Chama função para calcular os valores ()
                 resultado = matematica.calculadora(valor1, valor2, operacao);
 
-                if (resultado != false){
-                    console.log(resultado)
+                if (resultado === false){
+                    entradaDados.close();
+                }else{
+                    console.log(resultado);
                 }
-                entradaDados.close();
             }
 
             // typeof() = identifica o tipo de dados desse elemento
