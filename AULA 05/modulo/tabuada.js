@@ -33,6 +33,7 @@ const getTabuada = function (multiplicando, maxMultiplicador) {
             console.log( `${tabuada} x ${contador} = ${resultado} `);
             
             
+            
         }
 
     }
