@@ -22,31 +22,33 @@ const getMedia = function (nota1, nota2, nota3, nota4, nomeAluno, nomeProfessor,
     let curso = cursoaluno
     
 
-    let notaExame
-
-
-
-
     if (primeiraNota < 0 || primeiraNota > 100 || segundaNota < 0 || segundaNota > 100 || terceiraNota < 0 || terceiraNota > 100 || quartaNota < 0 || quartaNota > 100)
         console.log('ERROR: Algumas das notas digitadas são maiores que 100 ou menores que 0')
     else {
         let media = (primeiraNota + segundaNota + terceiraNota + quartaNota) / 4
-        if (media < 50) {
-            console.log('Sua média é: ' + media)
-            console.log('STATUS: REPROVADO')
-        } else if (media > 50 && media < 70) {
-            console.log('Sua média é: ' + media)
-            console.log('STATUS: EXAME')
-            
-        } else {
-            console.log('Sua média é: ' + media)
-            console.log('STATUS APROVADO')
-        }
+        return media.toFixed(2)
     }
 
 
 }
 
+const getExame = function (nota1, nota2, nota3, nota4, notaExame) {
+
+    let primeiraNota = Number(String(nota1).replace(',', '.'))
+    let segundaNota = Number(String(nota2).replace(',', '.'))
+    let terceiraNota = Number(String(nota3).replace(',', '.'))
+    let quartaNota = Number(String(nota4).replace(',', '.'))
+    let exameNota = Number(String(notaExame).replace(',', '.'))
+
+
+    let media = (primeiraNota + segundaNota + terceiraNota + quartaNota) / 4
+
+    let mediaExame = (media + exameNota) / 2
+
+    return mediaExame.toFixed(2)
+}
+
 module.exports = {
-    getMedia
+    getMedia,
+    getExame
 }
