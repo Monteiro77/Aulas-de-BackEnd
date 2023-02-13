@@ -6,7 +6,6 @@
  * Versão: 1.0
  **********************************************************************************/
 
-const calculadora = require("../../../AULA 04/modulo/calculadora")
 
 
 const getMedia = function (nota1, nota2, nota3, nota4, nomeAluno, nomeProfessor, disciplina, generoAluno, generoProfessor, cursoaluno) {
@@ -16,11 +15,12 @@ const getMedia = function (nota1, nota2, nota3, nota4, nomeAluno, nomeProfessor,
     let terceiraNota = Number(String(nota3).replace(',', '.'))
     let quartaNota = Number(String(nota4).replace(',', '.'))
     let alunoNome = nomeAluno
-    let  professorNome = nomeProfessor 
+    let professorNome = nomeProfessor
     let materia = disciplina
     let sexoAluno = generoAluno
     let sexoProfessor = generoProfessor
     let curso = cursoaluno
+    
 
     let notaExame
 
@@ -32,21 +32,20 @@ const getMedia = function (nota1, nota2, nota3, nota4, nomeAluno, nomeProfessor,
     else {
         let media = (primeiraNota + segundaNota + terceiraNota + quartaNota) / 4
         if (media < 50) {
-            console.log('Sua média é: ' + media.toFixed(2))
+            console.log('Sua média é: ' + media)
             console.log('STATUS: REPROVADO')
-        } else if(media > 50 && media < 70) {
-            console.log('Sua média é: ' + media.toFixed(2)) 
+        } else if (media > 50 && media < 70) {
+            console.log('Sua média é: ' + media)
             console.log('STATUS: EXAME')
-
             
-        }else{
-            console.log('Sua média é: ' + media.toFixed(2))
+        } else {
+            console.log('Sua média é: ' + media)
             console.log('STATUS APROVADO')
         }
     }
 
 
-} 
+}
 
 module.exports = {
     getMedia
