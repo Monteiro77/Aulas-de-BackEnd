@@ -84,7 +84,7 @@ const manipulandoDados = function () {
     listaProdutos.pop();
     console.table(listaProdutos);
 
-    //shift
+    //shift - remove o primeiro elemento
     listaProdutos.shift();
     console.table(listaProdutos)
 
@@ -211,18 +211,33 @@ const listagemProdutos = function () {
     listProdutosJSON.produtos[4].modelos = listModeloTeclado
     listProdutosJSON.produtos[5].modelos = listModeloTeclado
 
-    let listaDeProdutosQnt = listProdutosJSON.produtos.length
+    // let listaDeProdutosQnt = listProdutosJSON.produtos.length
     
-    for(let contador = 0; contador < listaDeProdutosQnt; contador++){
-        console.log('Nome do produto: ' + listProdutosJSON.produtos[contador].nome + '\n' + 'Marca: ' + listProdutosJSON.produtos[contador].marca + )
-        
-    }
+    // for(let contador = 0; contador < listaDeProdutosQnt; contador++){
+    //     console.log('Nome do produto: ' + listProdutosJSON.produtos[contador].nome + '\n' + 'Marca: ' + listProdutosJSON.produtos[contador].marca + '\n' + 'Preço: ' + listProdutosJSON.produtos[contador].valor + '\n')        
+    // }
 
+    listProdutosJSON.produtos.forEach(function(item){
+        console.log('Nome produto: ' +  item.nome)
+        console.log('Marca: ' + item.marca)
+        console.log('Valor: ' + item.valor)
+        console.log('Disponíve nas cores: ')
+        item.cores.forEach(function(productColor){
+            
+            console.log(productColor)
+            
+        })
+        console.log('Modelos Disponíveis: ')
 
-    
-    
-
-
+        if(item.modelos != undefined){
+            item.modelos.forEach(function(modelProduct){
+                console.log(modelProduct)
+            })
+        }else{
+            console.log('Modelo único')
+        }
+        console.log('\n')
+    })
 
     // console.log('Nome do produto: ' + listProdutosJSON.produtos[0].nome)
     // console.log('Marca: ' + listProdutosJSON.produtos[0].marca)
