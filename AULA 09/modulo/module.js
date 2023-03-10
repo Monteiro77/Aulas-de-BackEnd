@@ -149,7 +149,7 @@ return listaDeSiglasJson
     let listaDeInformacoesCidadesArray = []
     let estado = listaBrasil.estadosCidades.estados
 
-    if (uf == "") {
+    if (uf == "" || isNaN(uf)) {
        return false
     }else{
       estado.forEach(function(cidades){
@@ -172,8 +172,15 @@ return listaDeSiglasJson
     
 
  }
- console.log(getCidades('SP'))
-
+ 
+ module.exports = {
+    getCapitalEstado,
+    getCapitalPais,
+    getCidades,
+    getDadosEstado,
+    getEstadosRegiao,
+    getListaDeEstados
+ }
  
 
 
