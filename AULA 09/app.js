@@ -75,7 +75,7 @@ app.get('/estados', cors(), async function (request, response, next) {
 
 })
 
-app.get('/estado/:uf', cors(), async function (request, response, next) {
+app.get('/estado/sigla/:uf', cors(), async function (request, response, next) {
 
   let statusCode
   let dadosEstado = {}
@@ -102,7 +102,7 @@ app.get('/estado/:uf', cors(), async function (request, response, next) {
   response.json(dadosEstado)
 })
 
-app.get('/capital/:uf', cors(), async function (request, response, next) {
+app.get('/capital/estado/:uf', cors(), async function (request, response, next) {
   let statusCode
   let dadosCapital = {}
 
@@ -168,7 +168,7 @@ app.get('/capitalPais', cors(), async function (request, response, next) {
   response.json(dadosCapital)
 })
 
-app.get('/cidades/:uf', cors(), async function (request, response, next) {
+app.get('/v1/cidades/estado/sigla/:uf', cors(), async function (request, response, next) {
   let statusCode
   let dadosCidade = {}
 
@@ -190,12 +190,48 @@ app.get('/cidades/:uf', cors(), async function (request, response, next) {
 
   response.status(statusCode)
   response.json(dadosCidade)
-  
+                                      
 })
+
+app.get('/v2/cidades', cors(), async function (request, response, next) {
+
+  /** 
+   * Existem 2 opções para receber variáveis para filtro:
+   * 
+   *      params - que permite receber a variável na estrutura da URL
+   *        criada no EndPoint (geralmente utilizado para ID (PK) )
+   * 
+   *      query - tambem conhecido como QueryString - 
+   *          que permite receber uma ou muitas variáveis 
+   *            para realizar filtros avançado
+   * */ 
+
+
+  let dadosCidade = {}
+  let statusCode
+  //recebe uma variável encaminhadan via QueryString
+  let siglaEstado = request.query.uf; 
+
+
+  if (siglaEstado == "" || siglaEstado == undefined || !isNaN(siglaEstado) || siglaEstado.length != 2) {
+    statusCode = 400
+    dadosCidade.message = 'Não foi possível acessar pois os dados de entrada (UF) não corresponde ao exigido, confira o valor, pois não pode ser vazio, precisar ser a caracteres e ter 2 dígitos '
+  } else {
+    let cidades = estadosCidades.getCidades(siglaEstado)
+
+    if (cidades) {
+      statusCode = 200
+      dadosCidade = cidade
+    } else {
+      statusCode = 404
+    }
+  }
+
+  response.status(statusCode)
+  response.json(dadosCidade)
+                                      
+})
+
 app.listen(8080, function () {
   console.log('SERVIDOR AGUARDANDO REQUISIÇÕES NA PORTA 8080.')
 })
-
-
-
-
