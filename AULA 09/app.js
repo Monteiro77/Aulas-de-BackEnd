@@ -80,7 +80,7 @@ app.get('/estado/sigla/:uf', cors(), async function (request, response, next) {
   let statusCode
   let dadosEstado = {}
   //Recebe a sigla do estado que será enciada pela URl da requisição
-  let siglaEstado = request.params.uf
+  let siglaEstado =   request.params.uf
 
   //tratamento para validação de entrada de dados incorreta
   if (siglaEstado == "" || siglaEstado == undefined || !isNaN(siglaEstado) || siglaEstado.length != 2) {
