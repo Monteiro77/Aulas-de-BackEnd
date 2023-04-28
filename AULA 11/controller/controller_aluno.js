@@ -5,84 +5,105 @@
  * Versão: 1.0
  * ********************************************/
 
+var messages = require('./modulo/config.js')
+let alunoDAO = require('../model/DAO/alunoDAO.js')
 
- //Just in english
+//Just in english
 
- //Insert a new studant
- const newStudent = function(studentData){
+//Insert a new studant
+const newStudent = async function (studentData) {
+        
+    
 
- }
+        if(studentData.nome == ""               || studentData.nome == undefined            || studentData.nome.length > 100    ||
+            studentData.rg == ""                || studentData.rg == undefined              || studentData.rg.length > 15       ||
+            studentData.cpf == ""               || studentData.cpf == undefined             || studentData.cpf.length > 18      ||
+            studentData.data_nascimento == ""   || studentData.data_nascimento == undefined || studentData.data_nascimento > 15 ||
+            studentData.email == ""             || studentData.email == undefined           || studentData.email > 200
+        ){
+            return messages.ERROR_REQUIRED_FIELDS
+        }else{
+            let resultStudentData = await alunoDAO.inserirStudent(studentData)
+            if(resultStudentData)
+                return messages.SUCCESS_CREATED_ITEM
+            else
+                return messages.ERROR_INTERNAL_SERVER
+        }
+}
 
- //Update an existing student 
- const updateStudent = function(studentData){
+//Update an existing student 
+const updateStudent = function (studentData) {
 
- }
+}
 
- //Delete an existing student
- const deleteStudent = function(id){
+//Delete an existing student
+const deleteStudent = function (id) {
 
- }
+}
 
- //Return the all students list
- const getStudents = async function(){
-    let dadosAlunoJson = {}
+//Return the all students list
+const getStudents = async function () {
+    let studentDataJson = {}
 
     //import do DAO para acessar dados do aluno do BD
-    let alunoDAO = require('../model/DAO/alunoDAO.js')
+
     //chama a função do arquivo DAO que irá retornar todos os registros do DB
-    let dadosAluno = await alunoDAO.selecionarTodosStudents()
+    let studentData = await alunoDAO.selecionarTodosStudents()
 
-    
 
-    if(dadosAluno){
+
+    if (studentData) {
         //Criando um Jdon com atrbutos alunos para encaminhar um array de alunos
-        dadosAlunoJson.quantidade = dadosAluno.length         
-        dadosAlunoJson.alunos = dadosAluno
-        return dadosAlunoJson
-    }else{
+        studentDataJson.quantidade = studentData.length
+        studentDataJson.alunos = studentData
+        return studentDataJson
+    } else {
         return false
     }
- }
+}
 
- //Return the student by the id
- const findStudentId = async function(id){
+//Return the student by the id
+const findStudentId = async function (id) {
 
     let idAluno = id
-    let dadosAlunoJson = {}
+    let studentDataJson = {}
 
     let alunoDAO = require('../model/DAO/alunoDAO.js')
 
-    let dadosAluno =  await alunoDAO.selecionePeloIdStudent(idAluno)
-    
-    if(dadosAluno){
-        dadosAlunoJson.aluno = dadosAluno
-        return dadosAlunoJson
-    }else{
+    let studentData = await alunoDAO.selecionePeloIdStudent(idAluno)
+
+    if (studentData) {
+        studentDataJson.aluno = studentData
+        return studentDataJson
+    } else {
         return false
     }
- }
+}
 
- const findStudentByName = async function(nome){
+const findStudentByName = async function (nome) {
 
-    let nomeAluno = nome.toString()
-    let dadosAlunoJson = {}
+    let nomeAluno = nome
+    let studentDataJson = {}
 
     let alunoDao = require('../model/DAO/alunoDAO.js')
 
-    let dadosAluno = await alunoDao.selecionePeloNomeStudent(nomeAluno)
+    let studentData = await alunoDao.selecionePeloNomeStudent(nome)
+    
 
-    if(dadosAluno){
-        dadosAlunoJson.quantidade = dadosAluno.length
-        dadosAlunoJson.alunos = dadosAluno
-    }else{
+    if (studentData) {
+        studentDataJson.quantidade = studentData.length
+        studentDataJson.alunos = studentData
+        return studentDataJson
+    } else {
         return false
     }
 
- }
+}
 
 
- module.exports = {
-     getStudents,
-     findStudentId,
-     findStudentByName
- }
+module.exports = {
+    getStudents,
+    findStudentId,
+    findStudentByName,
+    newStudent
+}

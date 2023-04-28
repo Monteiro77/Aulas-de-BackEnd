@@ -22,7 +22,7 @@
 const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
-const { request, response } = require('express')
+
 
 
 
@@ -49,9 +49,14 @@ app.use((request, response, next) => {
  * Versão: 1.0
  * ********************************************/
 
+
+    //Define que os dados que irão chegar da requisição será no pradrão JSON
+    const bodyParserJSON = bodyParser.json()
+    let controllerAluno = require('./controller/controller_aluno.js')
+
     //EndPoint: retorna todos os dados de alunos
     app.get('/v1/lion-school/aluno', cors(), async function (request, response) {
-        let controllerAluno = require('./controller/controller_aluno.js')
+        
         let dadosAluno = await controllerAluno.getStudents()
 
 
@@ -70,7 +75,6 @@ app.use((request, response, next) => {
 
         let idAluno = request.params.id;
 
-        let controllerAluno = require('./controller/controller_aluno.js')
         let dadosAluno = await controllerAluno.findStudentId(idAluno)
 
         if(dadosAluno){
@@ -84,35 +88,44 @@ app.use((request, response, next) => {
     })
 
      //EndPoint: retorna todos os dados de alunos filtrando pelo id
-     app.get('/v1/lion-school/aluno/:nome', cors(), async function (request, response) {
+     app.get('/v1/lion-school/aluno/nome/:nome', cors(), async function (request, response) {
 
         let nomeAluno = request.params.nome;
 
-        let controllerAluno = require('./controller/controller_aluno.js')
+
         let dadosAluno = await controllerAluno.findStudentByName(nomeAluno)
 
         if(dadosAluno){
-            response.json(dadosAluno)
             response.status(200)
+            response.json(dadosAluno)
         }else{
-            response.json('')
             response.status(404)
+            response.json('')
         }
 
     })
 
     //EndPoint: Insere um dado novo todos os dados de alunos
-    app.post('/v1/lion-school/aluno', cors(), async function () {
+    app.post('/v1/lion-school/aluno', cors(), bodyParserJSON, async function (request, response) {
+        
+        //Recebe os dados encaminhados na requisição
+        let dadosBody = request.body
+
+        let resultDadosAluno = await controllerAluno.newStudent(dadosBody)
+
+        response.status(resultDadosAluno.status)
+        response.json(resultDadosAluno)
+
 
     })
 
     //EndPoint: atualiza um aluno existe, filtrando pelo id
-    app.put('/v1/lion-school/aluno/:id', cors(), async function () {
+    app.put('/v1/lion-school/aluno/:id', cors(), async function (request, response) {
 
     })
 
     //EndPoint: exclui um aluno filtrando pelo id
-    app.delete('/v1/lion-school/aluno/:id', cors(), async function () {
+    app.delete('/v1/lion-school/aluno/:id', cors(), async function (request, response) {
 
     })
 
