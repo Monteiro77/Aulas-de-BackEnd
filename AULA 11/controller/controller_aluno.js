@@ -12,36 +12,74 @@ let alunoDAO = require('../model/DAO/alunoDAO.js')
 
 //Insert a new studant
 const newStudent = async function (studentData) {
-        
-    
 
-        if(studentData.nome == ""               || studentData.nome == undefined            || studentData.nome.length > 100    ||
-            studentData.rg == ""                || studentData.rg == undefined              || studentData.rg.length > 15       ||
-            studentData.cpf == ""               || studentData.cpf == undefined             || studentData.cpf.length > 18      ||
-            studentData.data_nascimento == ""   || studentData.data_nascimento == undefined || studentData.data_nascimento > 15 ||
-            studentData.email == ""             || studentData.email == undefined           || studentData.email > 200
-        ){
-            return messages.ERROR_REQUIRED_FIELDS
-        }else{
-            let resultStudentData = await alunoDAO.inserirStudent(studentData)
-            if(resultStudentData)
-                return messages.SUCCESS_CREATED_ITEM
-            else
-                return messages.ERROR_INTERNAL_SERVER
-        }
+
+
+    if (studentData.nome == "" || studentData.nome == undefined || studentData.nome.length > 100 ||
+        studentData.rg == "" || studentData.rg == undefined || studentData.rg.length > 15 ||
+        studentData.cpf == "" || studentData.cpf == undefined || studentData.cpf.length > 18 ||
+        studentData.data_nascimento == "" || studentData.data_nascimento == undefined || studentData.data_nascimento > 15 ||
+        studentData.email == "" || studentData.email == undefined || studentData.email > 200
+    ) {
+        return messages.ERROR_REQUIRED_FIELDS
+    } else {
+        let resultStudentData = await alunoDAO.inserirStudent(studentData)
+        if (resultStudentData)
+            return messages.SUCCESS_CREATED_ITEM
+        else
+            return messages.ERROR_INTERNAL_SERVER
+    }
 }
 
 //Update an existing student 
-const updateStudent = function (studentData) {
+const updateStudent = async function (studentData, idStudent) {
 
+    if (studentData.nome == "" || studentData.nome == undefined || studentData.nome.length > 100 ||
+        studentData.rg == "" || studentData.rg == undefined || studentData.rg.length > 15 ||
+        studentData.cpf == "" || studentData.cpf == undefined || studentData.cpf.length > 18 ||
+        studentData.data_nascimento == "" || studentData.data_nascimento == undefined || studentData.data_nascimento > 15 ||
+        studentData.email == "" || studentData.email == undefined || studentData.email > 200
+    ) {
+        return messages.ERROR_REQUIRED_FIELDS
+    }
+    else if (idStudent == '' || idStudent == undefined || isNaN(idStudent)) {
+        return messages.ERROR_INVALID_ID
+    } else {
+        studentData.id = idStudent
+
+        let resultStudentData = await alunoDAO.atualizarStudent(studentData)
+
+        if (resultStudentData)
+            return messages.SUCCESS_UPDATED_ITEM
+        else
+            return messages.ERROR_INTERNAL_SERVER
+
+
+    }
 }
 
 //Delete an existing student
-const deleteStudent = function (id) {
+const deleteStudent = async function (idStudent) {
 
+    if (idStudent == '' || idStudent == undefined || isNaN(idStudent)) {
+        return messages.ERROR_INVALID_ID
+    } else {
+        let findStudentById = await alunoDAO.selecionePeloIdStudent(idStudent)
+
+        if (findStudentById) {
+            let resultStudentId = await alunoDAO.deletarStudent(idStudent)
+
+            if (resultStudentId)
+                return messages.SUCESS_DELETED_ITEM
+            else
+                return messages.ERROR_INVALID_ID
+        }else{
+            return messages.ERROR_NONEXISTENT_ID
+        }
+    }
 }
 
-//Return the all students list
+//Return all students list
 const getStudents = async function () {
     let studentDataJson = {}
 
@@ -68,15 +106,13 @@ const findStudentId = async function (id) {
     let idAluno = id
     let studentDataJson = {}
 
-    let alunoDAO = require('../model/DAO/alunoDAO.js')
-
     let studentData = await alunoDAO.selecionePeloIdStudent(idAluno)
 
     if (studentData) {
         studentDataJson.aluno = studentData
         return studentDataJson
     } else {
-        return false
+        return messages.ERROR_NONEXISTENT_ID
     }
 }
 
@@ -85,10 +121,8 @@ const findStudentByName = async function (nome) {
     let nomeAluno = nome
     let studentDataJson = {}
 
-    let alunoDao = require('../model/DAO/alunoDAO.js')
+    let studentData = await alunoDAO.selecionePeloNomeStudent(nome)
 
-    let studentData = await alunoDao.selecionePeloNomeStudent(nome)
-    
 
     if (studentData) {
         studentDataJson.quantidade = studentData.length
@@ -105,5 +139,7 @@ module.exports = {
     getStudents,
     findStudentId,
     findStudentByName,
-    newStudent
+    newStudent,
+    updateStudent,
+    deleteStudent
 }

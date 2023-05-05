@@ -15,16 +15,40 @@
      status: 500, message: 'Devido ao  um error no servidor não foi possivel realizar a requisição'
  }
 
+ const ERROR_INVALID_ID = {
+     status: 400, message: 'O ID informado a requisição não é valido ou não foi encaminhado'
+ }
+
+ const ERROR_INVALID_CONTENT_TYPE = {
+     status: 415, message: 'O tipo de mídia Content-typeda solicitação não é compatível com o servidor. [application/json]'
+ }
+
+ const ERROR_NONEXISTENT_ID = {
+     status: 404, message: 'O servidor não pode encontrar o recurso solicitado.'
+ }
+
  //***********************************MENSAGENS DE SUCESSO*******************************************/
 
 const SUCCESS_CREATED_ITEM = {
     status: 201, message: 'Item criado com sucesso'
-
 } 
+
+const SUCCESS_UPDATED_ITEM = {
+    status: 200, message: 'Item atualizado com sucesso'
+}
+
+const SUCESS_DELETED_ITEM = {
+    status: 200, message: 'Item deletado com sucesso'
+}
  //Exportação
 
  module.exports = {
      ERROR_REQUIRED_FIELDS,
      SUCCESS_CREATED_ITEM,
-     ERROR_INTERNAL_SERVER
+     ERROR_INTERNAL_SERVER,
+     ERROR_INVALID_ID,
+     SUCCESS_UPDATED_ITEM,
+     ERROR_INVALID_CONTENT_TYPE,
+     SUCESS_DELETED_ITEM,
+     ERROR_NONEXISTENT_ID
  }

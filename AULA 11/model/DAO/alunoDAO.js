@@ -37,12 +37,37 @@ const inserirStudent = async function (dadosAluno) {
 }
 
 //Update student data into DB
-const atualizarStudent = function (StudentData) {
+const atualizarStudent = async function (dadosAluno) {
 
+  let sql = `update tbl_aluno set
+                  nome = '${dadosAluno.nome}',
+                  rg = '${dadosAluno.rg}',
+                  cpf = '${dadosAluno.cpf}',
+                  data_nascimento = '${dadosAluno.data_nascimento}',
+                  email = '${dadosAluno.email}'
+                  
+                where id = ${dadosAluno.id}`;
+
+  let resultStatus = await prisma.$executeRawUnsafe(sql)
+
+  if(resultStatus)
+    return true
+  else
+    return false
+  
 }
 
 //Delete student data into DB
-const deletarStudent = function (id) {
+const deletarStudent = async function (id) {
+
+  let sql = `delete from tbl_aluno where id = ${id}`
+
+  let resultStatus = await prisma.$queryRawUnsafe(sql)
+
+  if(resultStatus)
+    return true
+  else
+    return false
 
 }
 
@@ -70,9 +95,9 @@ const selecionarTodosStudents = async function () {
 
 //Return the Student by id
 const selecionePeloIdStudent = async function (id) {
-  let idAluno = id
+  
 
-  let sql = 'select * from tbl_aluno where id = ' + idAluno
+  let sql = 'select * from tbl_aluno where id = ' + id
 
   let rsAluno = await prisma.$queryRawUnsafe(sql)
 
@@ -103,5 +128,7 @@ module.exports = {
   selecionarTodosStudents,
   selecionePeloIdStudent,
   selecionePeloNomeStudent,
-  inserirStudent
+  inserirStudent,
+  atualizarStudent,
+  deletarStudent
 }
