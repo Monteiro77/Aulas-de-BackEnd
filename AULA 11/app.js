@@ -53,22 +53,24 @@ app.use((request, response, next) => {
 //Define que os dados que irão chegar da requisição será no pradrão JSON
 const bodyParserJSON = bodyParser.json()
 const messages = require('./controller/modulo/config.js')
-const controller_aluno = require('./controller/controller_aluno.js')
+const controllerAluno = require('./controller/controller_aluno.js')
 
 //EndPoint: retorna todos os dados de alunos
 app.get('/v1/lion-school/aluno', cors(), async function (request, response) {
 
-    let dadosAluno = await controller_aluno.getStudents()
+    let dadosAluno = await controllerAluno.getStudents()
 
-
-    1//Valida se existe registros de aluno
-    if (dadosAluno) {
-        response.json(dadosAluno)
-        response.status(200)
-    } else {
-        response.json('')
-        response.status(404)
-    }
+    response.status(dadosAluno.status)
+    response.json(dadosAluno)
+    
+    //Valida se existe registros de aluno
+    // if (dadosAluno) {
+    //     response.json(dadosAluno)
+    //     response.status(200)
+    // } else {
+    //     response.json('')
+    //     response.status(404)
+    // }
 })
 
 //EndPoint: retorna todos os dados de alunos filtrando pelo id
@@ -78,13 +80,8 @@ app.get('/v1/lion-school/aluno/:id', cors(), async function (request, response) 
 
     let dadosAluno = await controllerAluno.findStudentId(idAluno)
 
-    if (dadosAluno) {
-        response.json(dadosAluno)
-        response.status(200)
-    } else {
-        response.json('')
-        response.status(404)
-    }
+    response.status(dadosAluno.status)
+    response.json(dadosAluno)
 
 })
 
@@ -140,17 +137,12 @@ app.put('/v1/lion-school/aluno/:id', cors(), bodyParserJSON, async function (req
         let dadosBody = request.body
 
         //Encaminha os dados para controller
-        let resultDadosAluno = await controller_aluno.updateStudent(dadosBody, idAluno)
+        let resultDadosAluno = await controllerAluno.updateStudent(dadosBody, idAluno)
 
         //Status
         response.status(resultDadosAluno.status)
-        //Json
         response.json(resultDadosAluno)
-    } else {
-        response.status(messages.ERROR_INVALID_CONTENT_TYPE.status)
-        response.json(messages.ERROR_INVALID_CONTENT_TYPE)
     }
-
 })
 
 //EndPoint: exclui um aluno filtrando pelo id
@@ -158,7 +150,7 @@ app.delete('/v1/lion-school/aluno/:id', cors(), async function (request, respons
 
     let idAluno = request.params.id
 
-    let resultDados = await controller_aluno.deleteStudent(idAluno)
+    let resultDados = await controllerAluno.deleteStudent(idAluno)
 
     response.status(resultDados.status)
     response.json(resultDados)

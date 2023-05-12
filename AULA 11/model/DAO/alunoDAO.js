@@ -77,26 +77,20 @@ const selecionarTodosStudents = async function () {
   //script sql para buscar todos os itens no banco de dados
   let sql = 'select * from tbl_aluno'
 
-
   //$queryRawUnsafe() - permite intepreta uma variáel como sendo um scriptSQL
   //$queryRaw(select * from tbl_aluno)   - Permite intepretar o scriptSQL direto no método
   let rsALuno = await prisma.$queryRawUnsafe(sql)
-
 
   //valida se o banco de dados retorno algum registro
   if (rsALuno.length > 0)
     return rsALuno
   else
     return false
-
-
-
 }
 
 //Return the Student by id
 const selecionePeloIdStudent = async function (id) {
   
-
   let sql = 'select * from tbl_aluno where id = ' + id
 
   let rsAluno = await prisma.$queryRawUnsafe(sql)
@@ -108,11 +102,9 @@ const selecionePeloIdStudent = async function (id) {
 }
 
 const selecionePeloNomeStudent = async function (nome) {
-  let nomeAluno = nome
 
   let sql = `select * from tbl_aluno where nome like '${nome}%' ` 
 
-  
 
   let rsAluno = await prisma.$queryRawUnsafe(sql)
 
@@ -120,15 +112,26 @@ const selecionePeloNomeStudent = async function (nome) {
     return rsAluno
   else
     return false
-
-
 }
 
+//Retorna o id inserido no banco de dados
+const selecioneUltimoId = async function(){
+
+  let sql = 'select * from tbl_aluno order by id desc limit 1;'
+
+  let rsAluno = await prisma.$queryRawUnsafe(sql);
+
+  if(rsAluno.length > 0)
+    return rsAluno
+  else
+    return false  
+}
 module.exports = {
   selecionarTodosStudents,
   selecionePeloIdStudent,
   selecionePeloNomeStudent,
   inserirStudent,
   atualizarStudent,
-  deletarStudent
+  deletarStudent,
+  selecioneUltimoId
 }

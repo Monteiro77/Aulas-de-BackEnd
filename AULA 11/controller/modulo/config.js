@@ -24,8 +24,25 @@
  }
 
  const ERROR_NONEXISTENT_ID = {
-     status: 404, message: 'O servidor não pode encontrar o recurso solicitado.'
+     status: 404, message: 'O servidor não pode encontrar o recurso(ID) solicitado.'
  }
+
+ const ERROR_NOT_FOUND = {
+     status: 404, message: 'Objeto não encontrado'
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
  //***********************************MENSAGENS DE SUCESSO*******************************************/
 
@@ -40,6 +57,10 @@ const SUCCESS_UPDATED_ITEM = {
 const SUCESS_DELETED_ITEM = {
     status: 200, message: 'Item deletado com sucesso'
 }
+
+const SUCCESS_REQUEST = {
+    status: 200, message: 'Requisição bem sucedida'
+}
  //Exportação
 
  module.exports = {
@@ -50,5 +71,7 @@ const SUCESS_DELETED_ITEM = {
      SUCCESS_UPDATED_ITEM,
      ERROR_INVALID_CONTENT_TYPE,
      SUCESS_DELETED_ITEM,
-     ERROR_NONEXISTENT_ID
+     ERROR_NONEXISTENT_ID,
+     SUCCESS_REQUEST,
+     ERROR_NOT_FOUND
  }
